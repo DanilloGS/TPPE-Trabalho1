@@ -23,8 +23,8 @@ class IrpfTest {
     })
     void getRendimento(String description, int value) {
         irpf.addRendimento(description, value);
-        assertEquals(description, irpf.getRendimento().get(0).getDescription());
-        assertEquals(value, irpf.getRendimento().get(0).getValue());
+        assertEquals(description, irpf.getRendimentos().get(0).getDescription());
+        assertEquals(value, irpf.getRendimentos().get(0).getValue());
     }
 
     @Test

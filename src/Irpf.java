@@ -1,20 +1,25 @@
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Irpf {
-    private ArrayList<Rendimento> rendimento = new ArrayList<>();
+    private ArrayList<Rendimento> rendimentos = new ArrayList<>();
 
     void addRendimento(String description, int value){
         Rendimento _rendimento = new Rendimento();
         _rendimento.setValue(value);
         _rendimento.setDescription(description);
-        this.rendimento.add(_rendimento);
+        this.rendimentos.add(_rendimento);
     }
 
-    public ArrayList<Rendimento> getRendimento(){
-        return this.rendimento;
+    public ArrayList<Rendimento> getRendimentos(){
+        return this.rendimentos;
     }
 
     public int getRendimentoTotal () {
-        return this.rendimento.get(0).getValue();
+        AtomicInteger totalValue = new AtomicInteger();
+        this.rendimentos.forEach(rendimento ->
+                totalValue.addAndGet(rendimento.getValue())
+        );
+        return totalValue.intValue();
     }
 }
