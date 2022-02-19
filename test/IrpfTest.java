@@ -13,8 +13,21 @@ class IrpfTest {
     }
 
     @Test
-    void getRendimento() {
+    void getRendimento1() {
         irpf.addRendimento("Salario", 5000);
-        System.out.println(irpf.getRendimento());
+        assertEquals("Salario", irpf.getRendimento().getDescription());
+        assertEquals(5000, irpf.getRendimento().getValue());
+    }
+    @Test
+    void getRendimento2() {
+        irpf.addRendimento("Aluguel", 6000);
+        assertEquals("Aluguel", irpf.getRendimento().getDescription());
+        assertEquals(6000, irpf.getRendimento().getValue());
+    }
+    @Test
+    void getRendimento3() {
+        irpf.addRendimento("Comercio", 8000);
+        assertEquals("Comercio", irpf.getRendimento().getDescription());
+        assertEquals(8000, irpf.getRendimento().getValue());
     }
 }
