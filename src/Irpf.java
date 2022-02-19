@@ -1,14 +1,16 @@
 import java.util.ArrayList;
 
 public class Irpf {
-    private Rendimento rendimento = new Rendimento();
+    private ArrayList<Rendimento> rendimento = new ArrayList<>();
 
     void addRendimento(String description, int value){
-        this.rendimento.setValue(value);
-        this.rendimento.setDescription(description);
+        Rendimento _rendimento = new Rendimento();
+        _rendimento.setValue(value);
+        _rendimento.setDescription(description);
+        this.rendimento.add(_rendimento);
     }
 
-    Rendimento getRendimento(){
+    ArrayList<Rendimento> getRendimento(){
         return this.rendimento;
     }
 }
