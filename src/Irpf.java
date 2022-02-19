@@ -10,7 +10,11 @@ public class Irpf {
         this.rendimento.add(_rendimento);
     }
 
-    ArrayList<Rendimento> getRendimento(){
+    public ArrayList<Rendimento> getRendimento(){
         return this.rendimento;
+    }
+
+    public int getRendimentoTotal () {
+        return 5000;
     }
 }

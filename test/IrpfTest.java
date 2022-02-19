@@ -1,5 +1,6 @@
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -24,5 +25,11 @@ class IrpfTest {
         irpf.addRendimento(description, value);
         assertEquals(description, irpf.getRendimento().get(0).getDescription());
         assertEquals(value, irpf.getRendimento().get(0).getValue());
+    }
+
+    @Test
+    void getRendimentoTotal() {
+        irpf.addRendimento("Salario", 5000);
+        assertEquals(5000, irpf.getRendimentoTotal());
     }
 }
