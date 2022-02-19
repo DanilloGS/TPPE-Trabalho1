@@ -29,7 +29,8 @@ class IrpfTest {
 
     @Test
     void getRendimentoTotal() {
+        irpf.addRendimento("Salario Bonus", 500);
         irpf.addRendimento("Salario", 5000);
-        assertEquals(5000, irpf.getRendimentoTotal());
+        assertEquals(5500, irpf.getRendimentoTotal());
     }
 }

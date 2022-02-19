@@ -15,6 +15,6 @@ public class Irpf {
     }
 
     public int getRendimentoTotal () {
-        return 5000;
+        return this.rendimento.get(0).getValue();
     }
 }
