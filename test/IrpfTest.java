@@ -1,5 +1,7 @@
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,23 +10,19 @@ class IrpfTest {
     Irpf irpf;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         irpf = new Irpf();
     }
 
-    @Test
-    void getRendimento() {
-        irpf.addRendimento("Salario", 5000);
-        irpf.addRendimento("Aluguel", 6000);
-        irpf.addRendimento("Comercio", 8000);
-
-        assertEquals("Salario", irpf.getRendimento().get(0).getDescription());
-        assertEquals(5000, irpf.getRendimento().get(0).getValue());
-
-        assertEquals("Aluguel", irpf.getRendimento().get(1).getDescription());
-        assertEquals(6000, irpf.getRendimento().get(1).getValue());
-
-        assertEquals("Comercio", irpf.getRendimento().get(2).getDescription());
-        assertEquals(8000, irpf.getRendimento().get(2).getValue());
+    @ParameterizedTest
+    @CsvSource({
+            "Salario, 5000",
+            "Aluguel, 6000",
+            "Comercio, 8000"
+    })
+    void getRendimento(String description, int value) {
+        irpf.addRendimento(description, value);
+        assertEquals(description, irpf.getRendimento().get(0).getDescription());
+        assertEquals(value, irpf.getRendimento().get(0).getValue());
     }
 }
