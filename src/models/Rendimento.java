@@ -1,3 +1,5 @@
+package models;
+
 public class Rendimento {
     private String description;
     private int value;
