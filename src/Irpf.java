@@ -1,9 +1,15 @@
 import java.util.ArrayList;
 
 public class Irpf {
-    private ArrayList<Rendimento> rendimentos = new ArrayList<>();
+    private Rendimento rendimento = new Rendimento();
 
-    void addRendimento(Sting description, int value){
+    void addRendimento(String description, int value){
+        Rendimento rendimento = new Rendimento();
+        rendimento.setValue(value);
+        rendimento.setDescription(description);
+    }
 
+    Rendimento getRendimento(){
+        return rendimento;
     }
 }
