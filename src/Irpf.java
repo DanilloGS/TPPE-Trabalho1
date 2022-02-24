@@ -1,18 +1,18 @@
-import exception.NonPositiveValueException;
-import exception.VoidValueException;
+import exception.ValorRendimentoInvalidoException;
+import exception.DescricaoEmBrancoException;
 import models.Rendimento;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Irpf {
     private ArrayList<Rendimento> rendimentos = new ArrayList<>();
 
-    void addRendimento(String description, int value) throws VoidValueException, NonPositiveValueException {
+    void addRendimento(String description, double value) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
         if(description == "")
-            throw new VoidValueException("Descrção não pode ser vazia");
+            throw new DescricaoEmBrancoException("Descrção não pode ser vazia");
         if(value <= 0)
-            throw new NonPositiveValueException("Valor deve ser positivo");
+            throw new ValorRendimentoInvalidoException("Valor deve ser positivo");
         Rendimento _rendimento = new Rendimento();
         _rendimento.setValue(value);
         _rendimento.setDescription(description);
@@ -23,11 +23,11 @@ public class Irpf {
         return this.rendimentos;
     }
 
-    public int getRendimentoTotal () {
-        AtomicInteger totalValue = new AtomicInteger();
+    public double getRendimentoTotal () {
+        final double[] totalValue = {0};
         this.rendimentos.forEach(rendimento ->
-                totalValue.addAndGet(rendimento.getValue())
+                totalValue[0] += rendimento.getValue()
         );
-        return totalValue.intValue();
+        return totalValue[0];
     }
 }

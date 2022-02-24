@@ -1,12 +1,9 @@
-import exception.NonPositiveValueException;
-import exception.VoidValueException;
-import org.junit.Before;
+import exception.ValorRendimentoInvalidoException;
+import exception.DescricaoEmBrancoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,11 +18,11 @@ class IrpfTest {
 
     @ParameterizedTest
     @CsvSource({
-            "Salario, 5000",
-            "Aluguel, 6000",
-            "Comercio, 8000"
+            "Salario, 5000.0",
+            "Aluguel, 6000.0",
+            "Comercio, 8000.0"
     })
-    void getRendimentos(String description, int value) throws VoidValueException, NonPositiveValueException {
+    void getRendimentos(String description, double value) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
         irpf.addRendimento(description, value);
         assertEquals(description, irpf.getRendimentos().get(0).getDescription());
         assertEquals(value, irpf.getRendimentos().get(0).getValue());
@@ -33,11 +30,11 @@ class IrpfTest {
 
     @ParameterizedTest
     @CsvSource({
-            "1000, 2000, 321, 3321",
-            "6000, 5000, 3000, 14000",
-            "8000, 2681, 3920, 14601"
+            "1000.10, 2000.30, 321.0, 3321.40",
+            "6000.0, 5000.0, 3000.0, 14000.0",
+            "8000.0, 2681.0, 3920.01, 14601.01"
     })
-    void getRendimentoTotal(int value1, int value2, int value3, int finalValue) throws VoidValueException, NonPositiveValueException {
+    void getRendimentoTotal(double value1, double value2, double value3, double finalValue) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
         irpf.addRendimento("Salario", value1);
         irpf.addRendimento("Salario", value2);
         irpf.addRendimento("Salario", value3);
@@ -46,16 +43,16 @@ class IrpfTest {
 
     @Test
     void addRendimentoVoidValueException(){
-        assertThrows(VoidValueException.class, () -> irpf.addRendimento("",1000));
+        assertThrows(DescricaoEmBrancoException.class, () -> irpf.addRendimento("",1000));
     }
 
     @Test
     void addRendimentoNonPositiveValueExceptionWhen0(){
-        assertThrows(NonPositiveValueException.class, () -> irpf.addRendimento("Salario",0));
+        assertThrows(ValorRendimentoInvalidoException.class, () -> irpf.addRendimento("Salario",0));
     }
 
     @Test
     void addRendimentoNonPositiveValueExceptionWhenNegative(){
-        assertThrows(NonPositiveValueException.class, () -> irpf.addRendimento("Salario",-1000));
+        assertThrows(ValorRendimentoInvalidoException.class, () -> irpf.addRendimento("Salario",-1000));
     }
 }
