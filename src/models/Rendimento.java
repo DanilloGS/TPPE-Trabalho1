@@ -2,7 +2,7 @@ package models;
 
 public class Rendimento {
     private String description;
-    private int value;
+    private double value;
 
     public String getDescription() {
         return description;
@@ -12,11 +12,11 @@ public class Rendimento {
         this.description = description;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 }
