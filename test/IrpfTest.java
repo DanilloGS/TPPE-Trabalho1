@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import java.text.DecimalFormat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,6 +73,18 @@ class IrpfTest {
     void calculateTax2() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
         irpf.addRendimento("Salario", 500);
         assertEquals(0, irpf.calculateTax());
+    }
+
+    @Test
+    void calculateTax3() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        irpf.addRendimento("Salario", 1903.98);
+        assertEquals(0, irpf.calculateTax());
+    }
+
+    @Test
+    void calculateTax4() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        irpf.addRendimento("Salario", 2826.65);
+        assertEquals(69.20, irpf.calculateTax());
     }
 
 }

@@ -2,8 +2,9 @@ import exception.ValorRendimentoInvalidoException;
 import exception.DescricaoEmBrancoException;
 import models.Rendimento;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Irpf {
 
@@ -41,16 +42,21 @@ public class Irpf {
     public double calculateTax() {
         double totalValue = getRendimentoTotal();
         double taxValue = 0;
-        if(totalValue > FAIXA4_LIMIT) {
+        if(totalValue > FAIXA4_LIMIT + FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT) {
             totalValue -= (FAIXA4_LIMIT + FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT);
             taxValue += totalValue * 0.275;
-        }  if (totalValue > FAIXA3_LIMIT){
+        }  if (totalValue > FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT){
             taxValue += FAIXA4_LIMIT * 0.225;
-        }  if (totalValue > FAIXA2_LIMIT){
+        }  if (totalValue > FAIXA2_LIMIT+ FAIXA1_LIMIT){
             taxValue += FAIXA3_LIMIT * 0.15;
         }  if (totalValue > FAIXA1_LIMIT) {
             taxValue += FAIXA2_LIMIT * 0.075;
         }
-        return taxValue;
+
+        double truncatedTax = BigDecimal.valueOf(taxValue)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+
+        return truncatedTax;
     };
 }
