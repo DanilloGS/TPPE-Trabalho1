@@ -54,7 +54,7 @@ public class Irpf {
         }
 
         double truncatedTax = BigDecimal.valueOf(taxValue)
-                .setScale(2, RoundingMode.HALF_UP)
+                .setScale(2, RoundingMode.DOWN)
                 .doubleValue();
 
         return truncatedTax;
