@@ -6,7 +6,7 @@ O projeto foi inteiramente desenvolvido no IntelliJ IDEA, uma IDE mantida pelo J
 
 ## Objetivo
  
-O objetivo desse repositorio é demonstrar as técnicas de TDD (Test Driven Development) aprendidas nas aulas de Tecnicas de programação para plataformas emergentes, ou TPPE, desenvolvendo um programa para calcuar o IRPF baseado no seguinte [site](https://www27.receita.fazenda.gov.br/simulador-irpf/). Além disso, deve-se seguir os [pré requisitos](https://github.com/andrelanna/fga0242/tree/master/tp1) feitas pelo professor.
+O objetivo desse repositorio é demonstrar as técnicas de TDD (Test Driven Development) aprendidas nas aulas de Tecnicas de programação para plataformas emergentes, ou TPPE, desenvolvendo um programa para calcuar o IRPF baseado no seguinte [site](https://www27.receita.fazenda.gov.br/simulador-irpf/). Além disso, deve-se seguir os [pré requisitos](https://github.com/andrelanna/fga0242/tree/master/tp1) feitos pelo professor.
  
 ## Explicação
  
