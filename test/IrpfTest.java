@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import java.text.DecimalFormat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,5 +55,37 @@ class IrpfTest {
     @Test
     void addRendimentoNonPositiveValueExceptionWhenNegative(){
         assertThrows(ValorRendimentoInvalidoException.class, () -> irpf.addRendimento("Salario",-1000));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "15000, 3255.64",
+            "10000, 1880.64",
+            "500, 0",
+            "5000, 505.64",
+            "3000, 95.20",
+            "1903.98, 0",
+            "2826.65, 69.20",
+            "3751.05, 207.86",
+    })
+    void calculateTax(double value, double expectedValue) throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        irpf.addRendimento("Salario", value);
+        assertEquals(expectedValue, irpf.calculateTax());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "15000, 21.70",
+            "10000, 18.80",
+            "500, 0",
+            "5000, 10.11",
+            "3000, 3.17",
+            "1903.98, 0",
+            "2826.65, 2.44",
+            "3751.05, 5.54",
+    })
+    void getAliquota(double value, double percentageExpected) throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        irpf.addRendimento("Salario", value);
+        assertEquals(percentageExpected, irpf.getAliquota());
     }
 }
