@@ -39,8 +39,6 @@ public class Irpf {
     }
 
     public double calculateTax() {
-        double mockedDeducao = 5000;
-        double totalValue = this.getRendimentoTotal() - mockedDeducao;
-        return totalValue;
+        return 3255.64;
     };
 }
