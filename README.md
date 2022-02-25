@@ -28,8 +28,8 @@ Os commits realizados foram separados por etapas do TDD (Duplicação, falsifica
  
 |Nome|Matricula|
 |:---:|:---:|
-|Daniel||
+|Daniel Primo de Melo|18/0063162|
 |Danillo Gonçalves de Souza|17/0139981|
-|Maicon||
+|Maicon Lucas Mares de Souza|180023411|
 |Ithalo Luiz de Azevedo Mendes|17/0069800|
-|Victor||
+|Victor Amaral Cerqueira|17/0164411|
