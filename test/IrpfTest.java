@@ -57,39 +57,18 @@ class IrpfTest {
         assertThrows(ValorRendimentoInvalidoException.class, () -> irpf.addRendimento("Salario",-1000));
     }
 
-    @Test
-    void calculateTax() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
-        irpf.addRendimento("Salario", 15000);
-        assertEquals(3255.64, irpf.calculateTax());
-    }
-
-    @Test
-    void calculateTax1() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
-        irpf.addRendimento("Salario", 10000);
-        assertEquals(1880.64, irpf.calculateTax());
-    }
-
-    @Test
-    void calculateTax2() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
-        irpf.addRendimento("Salario", 500);
-        assertEquals(0, irpf.calculateTax());
-    }
-
-    @Test
-    void calculateTax3() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
-        irpf.addRendimento("Salario", 1903.98);
-        assertEquals(0, irpf.calculateTax());
-    }
-
-    @Test
-    void calculateTax4() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
-        irpf.addRendimento("Salario", 2826.65);
-        assertEquals(69.20, irpf.calculateTax());
-    }
-
-    @Test
-    void calculateTax5() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
-        irpf.addRendimento("Salario", 4664.68);
-        assertEquals(413.42, irpf.calculateTax());
+    @ParameterizedTest
+    @CsvSource({
+            "15000, 3255.64",
+            "10000, 1880.64",
+            "500, 0",
+            "1903.98, 0",
+            "2826.65, 69.20",
+            "4664.68, 413.42",
+            "3751.05, 207.86",
+    })
+    void calculateTax(double value, double expectedValue) throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        irpf.addRendimento("Salario", value);
+        assertEquals(expectedValue, irpf.calculateTax());
     }
 }
