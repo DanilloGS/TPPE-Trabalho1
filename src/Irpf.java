@@ -39,6 +39,18 @@ public class Irpf {
     }
 
     public double calculateTax() {
-        return 3255.64;
+        double totalValue = getRendimentoTotal();
+        double taxValue = 0;
+        if(totalValue > FAIXA4_LIMIT) {
+            totalValue -= (FAIXA4_LIMIT + FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT);
+            taxValue += totalValue * 0.275;
+        }  if (totalValue > FAIXA3_LIMIT){
+            taxValue += FAIXA4_LIMIT * 0.225;
+        }  if (totalValue > FAIXA2_LIMIT){
+            taxValue += FAIXA3_LIMIT * 0.15;
+        }  if (totalValue > FAIXA1_LIMIT) {
+            taxValue += FAIXA2_LIMIT * 0.075;
+        }
+        return taxValue;
     };
 }

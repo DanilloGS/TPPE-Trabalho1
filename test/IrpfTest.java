@@ -61,4 +61,17 @@ class IrpfTest {
         irpf.addRendimento("Salario", 15000);
         assertEquals(3255.64, irpf.calculateTax());
     }
+
+    @Test
+    void calculateTax1() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        irpf.addRendimento("Salario", 10000);
+        assertEquals(1880.64, irpf.calculateTax());
+    }
+
+    @Test
+    void calculateTax2() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        irpf.addRendimento("Salario", 500);
+        assertEquals(0, irpf.calculateTax());
+    }
+
 }
