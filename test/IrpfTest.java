@@ -55,4 +55,10 @@ class IrpfTest {
     void addRendimentoNonPositiveValueExceptionWhenNegative(){
         assertThrows(ValorRendimentoInvalidoException.class, () -> irpf.addRendimento("Salario",-1000));
     }
+
+    @Test
+    void calculateTax() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        irpf.addRendimento("Salario", 15000);
+        assertEquals(10000, irpf.calculateTax());
+    }
 }

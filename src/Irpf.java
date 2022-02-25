@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Irpf {
+
+    private double FAIXA1_LIMIT = 1903.98; // 0%
+    private double FAIXA2_LIMIT = 922.67; // 7.5%
+    private double FAIXA3_LIMIT = 924.40; // 15.5%
+    private double FAIXA4_LIMIT = 913.63; // 22.5%
+//    private double FAIXA5_LIMIT = ANY_VALUE; 27.5%
+
     private ArrayList<Rendimento> rendimentos = new ArrayList<>();
 
     void addRendimento(String description, double value) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
@@ -30,4 +37,10 @@ public class Irpf {
         );
         return totalValue[0];
     }
+
+    public double calculateTax() {
+        double mockedDeducao = 5000;
+        double totalValue = this.getRendimentoTotal() - mockedDeducao;
+        return totalValue;
+    };
 }
