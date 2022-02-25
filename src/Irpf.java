@@ -12,8 +12,8 @@ public class Irpf {
     private double FAIXA2_LIMIT = 922.67; // 7.5%
     private double FAIXA3_LIMIT = 924.40; // 15.5%
     private double FAIXA4_LIMIT = 913.63; // 22.5%
+    private double FAIXA5_LIMIT = FAIXA4_LIMIT + FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT; // 27.5%
     private double taxValue = 0;
-//    private double FAIXA5_LIMIT = ANY_VALUE; 27.5%
 
     private ArrayList<Rendimento> rendimentos = new ArrayList<>();
 
@@ -42,17 +42,21 @@ public class Irpf {
 
     public double calculateTax() {
         double totalValue = this.getRendimentoTotal();
+        double faixaValue;
         this.taxValue = 0;
 
-        if(totalValue > FAIXA4_LIMIT + FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT) {
-            totalValue -= (FAIXA4_LIMIT + FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT);
-            this.taxValue += totalValue * 0.275;
+        if(totalValue > FAIXA5_LIMIT) {
+            faixaValue = totalValue - FAIXA5_LIMIT;
+            this.taxValue += faixaValue * 0.275;
         }  if (totalValue > FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT){
-            this.taxValue += FAIXA4_LIMIT * 0.225;
+            faixaValue = Math.min(totalValue - (FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT), FAIXA4_LIMIT);
+            this.taxValue += faixaValue * 0.225;
         }  if (totalValue > FAIXA2_LIMIT+ FAIXA1_LIMIT){
-            this.taxValue += FAIXA3_LIMIT * 0.15;
+            faixaValue = Math.min(totalValue - (FAIXA2_LIMIT + FAIXA1_LIMIT), FAIXA3_LIMIT);
+            this.taxValue += faixaValue * 0.15;
         }  if (totalValue > FAIXA1_LIMIT) {
-            this.taxValue += FAIXA2_LIMIT * 0.075;
+            faixaValue = Math.min(totalValue - FAIXA1_LIMIT, FAIXA2_LIMIT);
+            this.taxValue += faixaValue * 0.075;
         }
 
         double truncatedTax = BigDecimal.valueOf(this.taxValue)
@@ -62,5 +66,13 @@ public class Irpf {
         return truncatedTax;
     };
 
+    public double getAliquotaEfetiva() {
+        double percentage = 100 * this.calculateTax()/this.getRendimentoTotal();
 
+        double truncatedPercentage = BigDecimal.valueOf(percentage)
+                .setScale(2, RoundingMode.DOWN)
+                .doubleValue();
+
+        return truncatedPercentage;
+    };
 }

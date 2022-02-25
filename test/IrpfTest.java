@@ -62,6 +62,8 @@ class IrpfTest {
             "15000, 3255.64",
             "10000, 1880.64",
             "500, 0",
+            "5000, 505.64",
+            "3000, 95.20",
             "1903.98, 0",
             "2826.65, 69.20",
             "4664.68, 413.42",
@@ -70,5 +72,11 @@ class IrpfTest {
     void calculateTax(double value, double expectedValue) throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
         irpf.addRendimento("Salario", value);
         assertEquals(expectedValue, irpf.calculateTax());
+    }
+
+    @Test
+    void getAliquotaEfetiva() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        irpf.addRendimento("Salario", 5000);
+        assertEquals(10.11, irpf.getAliquotaEfetiva());
     }
 }
