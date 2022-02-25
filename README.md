@@ -31,5 +31,5 @@ Os commits realizados foram separados por etapas do TDD (Duplicação, falsifica
 |Daniel||
 |Danillo Gonçalves de Souza|17/0139981|
 |Maicon||
-|Ithalo||
+|Ithalo Luiz de Azevedo Mendes|17/0069800|
 |Victor||
