@@ -37,11 +37,14 @@ public class Irpf {
         this.rendimentos.forEach(rendimento ->
                 totalValue[0] += rendimento.getValue()
         );
-        return totalValue[0];
+        return BigDecimal.valueOf(totalValue[0])
+                .setScale(2, RoundingMode.HALF_EVEN)
+                .doubleValue();
     }
 
     public double calculateTax() {
-        double totalValue = this.getRendimentoTotal();
+        // TO-DO: Adicionar deduções também
+        double totalValue = this.getRendimentoTotal(); // - this.getDeducoes();
         double faixaValue;
         this.taxValue = 0;
 
@@ -60,13 +63,13 @@ public class Irpf {
         }
 
         double truncatedTax = BigDecimal.valueOf(this.taxValue)
-                .setScale(2, RoundingMode.DOWN)
+                .setScale(2, RoundingMode.HALF_EVEN)
                 .doubleValue();
 
         return truncatedTax;
     };
 
-    public double getAliquotaEfetiva() {
+    public double getAliquota() {
         double percentage = 100 * this.calculateTax()/this.getRendimentoTotal();
 
         double truncatedPercentage = BigDecimal.valueOf(percentage)

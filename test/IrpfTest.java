@@ -66,7 +66,6 @@ class IrpfTest {
             "3000, 95.20",
             "1903.98, 0",
             "2826.65, 69.20",
-            "4664.68, 413.42",
             "3751.05, 207.86",
     })
     void calculateTax(double value, double expectedValue) throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
@@ -74,9 +73,19 @@ class IrpfTest {
         assertEquals(expectedValue, irpf.calculateTax());
     }
 
-    @Test
-    void getAliquotaEfetiva() throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
-        irpf.addRendimento("Salario", 5000);
-        assertEquals(10.11, irpf.getAliquotaEfetiva());
+    @ParameterizedTest
+    @CsvSource({
+            "15000, 21.70",
+            "10000, 18.80",
+            "500, 0",
+            "5000, 10.11",
+            "3000, 3.17",
+            "1903.98, 0",
+            "2826.65, 2.44",
+            "3751.05, 5.54",
+    })
+    void getAliquota(double value, double percentageExpected) throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        irpf.addRendimento("Salario", value);
+        assertEquals(percentageExpected, irpf.getAliquota());
     }
 }
