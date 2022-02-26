@@ -55,43 +55,36 @@ class IrpfTest {
         assertThrows(NonPositiveValueException.class, () -> irpf.addRendimento("Salario",-1000));
     }
 
-    @Test
-    void getDeducao() throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
-        irpf.addDeducao(1000.00, "PO", "Contribuicao Previdencia Oficial");
-        assertEquals(1000.00, irpf.getDeducao().get(0).getValue());
-        assertEquals("Contribuicao Previdencia Oficial", irpf.getDeducao().get(0).getDeducaoDescription());
+    @ParameterizedTest
+    @CsvSource({
+            "1000.00, PO, Contribuicao Previdencia Oficial",
+            "2000.00, PP, Minha Previdencia Privada",
+            "3000.00, PA, Pensao Alimenticia"
+    })
+    void getDeducao(double deducao, String tipoDeducao, String descricao) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
+        irpf.addDeducao(deducao, tipoDeducao, descricao);
+        assertEquals(deducao, irpf.getDeducao().get(0).getValue());
+        assertEquals(tipoDeducao, irpf.getDeducao().get(0).getDeducaoType());
+        assertEquals(descricao, irpf.getDeducao().get(0).getDeducaoDescription());
     }
 
-    @Test
-    void getDuasDeducoes() throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
-        irpf.addDeducao(1000.00, "PO", "Primeira Previdencia Oficial");
-        irpf.addDeducao(3000.00, "PO", "Segunda Previdencia Oficial");
-        assertEquals(4000.00, irpf.getDeducaoTotal());
-        assertEquals("Primeira Previdencia Oficial", irpf.getDeducao().get(0).getDeducaoDescription());
-        assertEquals("Segunda Previdencia Oficial", irpf.getDeducao().get(1).getDeducaoDescription());
-    }
-
-    @Test
-    void getDependentes() throws NoSuchMethodException {
-        irpf.setDependenteDeducao("Carlos", "25/03/1990");
-        assertEquals("Carlos", irpf.getDependentes().get(0).getNome());
-        assertEquals("25/03/1990", irpf.getDependentes().get(0).getDtNascimento());
-    }
-
-    @Test
-    void getDoisDependentes() throws NoSuchMethodException {
-        irpf.setDependenteDeducao("Carlos Prestes", "25/03/1750");
-        irpf.setDependenteDeducao("Steve Wozniak", "02/01/1990");
-        assertEquals("Carlos Prestes", irpf.getDependentes().get(0).getNome());
-        assertEquals("Steve Wozniak", irpf.getDependentes().get(1).getNome());
-        assertEquals("25/03/1750", irpf.getDependentes().get(0).getDtNascimento());
-        assertEquals("02/01/1990", irpf.getDependentes().get(1).getDtNascimento());
+    @ParameterizedTest
+    @CsvSource({
+            "Ada Lovelace, 25/03/1820",
+            "Lord Byron, 13/02/1780",
+            "Steve Wozniak, 12/03/1990"
+    })
+    void getDependentes(String nome, String dtNascimento) throws NoSuchMethodException {
+        irpf.setDependenteDeducao(nome, dtNascimento);
+        assertEquals(nome, irpf.getDependentes().get(0).getNome());
+        assertEquals(dtNascimento, irpf.getDependentes().get(0).getDtNascimento());
     }
 
     @Test
     void getDeducaoTotal() throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
-        irpf.addDeducao(5000.00, "PA", "PA");
-        irpf.addDeducao(10000.00, "PA", "PA");
-        assertEquals(15000.00, irpf.getDeducaoTotal());
+        irpf.addDeducao(5000.00, "PA", "Pensao Alimenticia");
+        irpf.addDeducao(10000.00, "PP", "Previdencia Privada");
+        irpf.addDeducao(12000.00, "PP", "Previdencia Privada");
+        assertEquals(27000.00, irpf.getDeducaoTotal());
     }
 }
