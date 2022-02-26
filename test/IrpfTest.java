@@ -55,6 +55,30 @@ class IrpfTest {
         assertThrows(NonPositiveValueException.class, () -> irpf.addRendimento("Salario",-1000));
     }
 
+    @Test
+    void addDeducaoDescricaoEmBranco(){
+        assertThrows(DescricaoEmBrancoException.class,
+                () -> irpf.addDeducao(
+                        8482.23, "PP", ""
+                ));
+    }
+
+    @Test
+    void addDeducaoValorDeducaoInvalidoVazio(){
+        assertThrows(ValorDeducaoInvalidoException.class,
+                () -> irpf.addDeducao(
+                        0, "PP", "Previdencia Privada"
+                ));
+    }
+
+    @Test
+    void addDeducaoValorDeducaoInvalidoNegativo(){
+        assertThrows(ValorDeducaoInvalidoException.class,
+                () -> irpf.addDeducao(
+                        -2500.00, "PP", "Previdencia Privada"
+                ));
+    }
+
     @ParameterizedTest
     @CsvSource({
             "1000.00, PO, Contribuicao Previdencia Oficial",
