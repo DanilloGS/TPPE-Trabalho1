@@ -42,17 +42,17 @@ class IrpfTest {
 
     @Test
     void addRendimentoVoidValueException(){
-        assertThrows(VoidValueException.class, () -> irpf.addRendimento("",1000));
+        assertThrows(DescricaoEmBrancoException.class, () -> irpf.addRendimento("",1000));
     }
 
     @Test
     void addRendimentoNonPositiveValueExceptionWhen0(){
-        assertThrows(NonPositiveValueException.class, () -> irpf.addRendimento("Salario",0));
+        assertThrows(ValorRendimentoInvalidoException.class, () -> irpf.addRendimento("Salario",0));
     }
 
     @Test
     void addRendimentoNonPositiveValueExceptionWhenNegative(){
-        assertThrows(NonPositiveValueException.class, () -> irpf.addRendimento("Salario",-1000));
+        assertThrows(ValorRendimentoInvalidoException.class, () -> irpf.addRendimento("Salario",-1000));
     }
 
     @Test
