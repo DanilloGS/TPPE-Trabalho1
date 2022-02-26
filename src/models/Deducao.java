@@ -6,7 +6,7 @@ public class Deducao {
     private String deducaoDescription;
 
     public double getValue() {
-        return 1000.00;
+        return this.value;
     }
 
     public void setValue(double value) {
@@ -14,7 +14,7 @@ public class Deducao {
     }
 
     public String getDeducaoType() {
-        return deducaoType;
+        return this.deducaoType;
     }
 
     public void setDeducaoType(String deducaoType) {
@@ -22,7 +22,7 @@ public class Deducao {
     }
 
     public String getDeducaoDescription() {
-        return "Contribuicao Previdencia Oficial";
+        return this.deducaoDescription;
     }
 
     public void setDeducaoDescription(String deducaoDescription) {

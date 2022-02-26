@@ -16,9 +16,15 @@ public class Irpf {
     private double FAIXA5_LIMIT = FAIXA4_LIMIT + FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT; // 27.5%
     private double taxValue = 0;
 
-    private ArrayList<Rendimento> rendimentos = new ArrayList<>();
-    private ArrayList<Deducao> deducoes = new ArrayList<>();
-    private ArrayList<Dependente> dependentes = new ArrayList<>();
+    private ArrayList<Rendimento> rendimentos;
+    private ArrayList<Deducao> deducoes;
+    private ArrayList<Dependente> dependentes;
+
+    public Irpf() {
+        rendimentos = new ArrayList<>();
+        deducoes = new ArrayList<>();
+        dependentes = new ArrayList<>();
+    }
 
     void addRendimento(String description, double value) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
         if(description == "")
@@ -107,11 +113,21 @@ public class Irpf {
         if(name == "")
             throw new NoSuchMethodException("Descrição não pode ser vazia");
         Dependente dependente = new Dependente(name, dtNascimento);
-        dependentes.add(dependente);
+        this.dependentes.add(dependente);
     }
 
     public double getDeducaoTotal() {
-        return 5000.00;
+        int totalDependentes = dependentes.size();
+
+        final double[] totalValue = {totalDependentes * Dependente.pensao};
+
+        this.deducoes.forEach(deducao ->
+                totalValue[0] += deducao.getValue()
+        );
+
+        return BigDecimal.valueOf(totalValue[0])
+                .setScale(2, RoundingMode.HALF_EVEN)
+                .doubleValue();
     }
 
 }
