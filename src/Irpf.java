@@ -1,5 +1,6 @@
-import exception.ValorRendimentoInvalidoException;
-import exception.DescricaoEmBrancoException;
+import exception.*;
+import models.Deducao;
+import models.Dependente;
 import models.Rendimento;
 
 import java.math.BigDecimal;
@@ -15,7 +16,15 @@ public class Irpf {
     private double FAIXA5_LIMIT = FAIXA4_LIMIT + FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT; // 27.5%
     private double taxValue = 0;
 
-    private ArrayList<Rendimento> rendimentos = new ArrayList<>();
+    private ArrayList<Rendimento> rendimentos;
+    private ArrayList<Deducao> deducoes;
+    private ArrayList<Dependente> dependentes;
+
+    public Irpf() {
+        rendimentos = new ArrayList<>();
+        deducoes = new ArrayList<>();
+        dependentes = new ArrayList<>();
+    }
 
     void addRendimento(String description, double value) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
         if(description == "")
@@ -32,6 +41,14 @@ public class Irpf {
         return this.rendimentos;
     }
 
+    public ArrayList<Deducao> getDeducao(){
+        return this.deducoes;
+    }
+
+    public ArrayList<Dependente> getDependentes(){
+        return this.dependentes;
+    }
+
     public double getRendimentoTotal () {
         final double[] totalValue = {0};
         this.rendimentos.forEach(rendimento ->
@@ -43,8 +60,7 @@ public class Irpf {
     }
 
     public double calculateTax() {
-        // TO-DO: Adicionar deduções também
-        double totalValue = this.getRendimentoTotal(); // - this.getDeducoes();
+        double totalValue = this.getRendimentoTotal() - this.getDeducaoTotal();
         double faixaValue;
         this.taxValue = 0;
 
@@ -78,4 +94,40 @@ public class Irpf {
 
         return truncatedPercentage;
     };
+
+    public void addDeducao(double deducaoValue, String deducaoType, String deducaoDescription) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
+        if(deducaoDescription == "")
+            throw new DescricaoEmBrancoException("Descrição não pode ser vazia");
+        if(deducaoValue <= 0)
+            throw new ValorDeducaoInvalidoException("Valor deve ser positivo");
+
+        Deducao deducao = new Deducao();
+        deducao.setValue(deducaoValue);
+        deducao.setDeducaoType(deducaoType);
+        deducao.setDeducaoDescription(deducaoDescription);
+
+        deducoes.add(deducao);
+    }
+
+    public void setDependenteDeducao(String name, String dtNascimento) throws NoSuchMethodException {
+        if(name == "")
+            throw new NoSuchMethodException("Descrição não pode ser vazia");
+        Dependente dependente = new Dependente(name, dtNascimento);
+        this.dependentes.add(dependente);
+    }
+
+    public double getDeducaoTotal() {
+        int totalDependentes = dependentes.size();
+
+        final double[] totalValue = {totalDependentes * Dependente.pensao};
+
+        this.deducoes.forEach(deducao ->
+                totalValue[0] += deducao.getValue()
+        );
+
+        return BigDecimal.valueOf(totalValue[0])
+                .setScale(2, RoundingMode.HALF_EVEN)
+                .doubleValue();
+    }
+
 }
