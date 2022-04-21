@@ -95,11 +95,8 @@ public class Irpf {
         return truncatedPercentage;
     };
 
-    public void addDeducao(double deducaoValue, String deducaoType, String deducaoDescription) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
-        if(deducaoDescription == "")
-            throw new DescricaoEmBrancoException("Descrição não pode ser vazia");
-        if(deducaoValue <= 0)
-            throw new ValorDeducaoInvalidoException("Valor deve ser positivo");
+    public void addDeducao(double deducaoValue, String deducaoType, String deducaoDescription) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
+        handleException(deducaoValue, deducaoDescription);
 
         Deducao deducao = new Deducao();
         deducao.setValue(deducaoValue);
@@ -128,6 +125,13 @@ public class Irpf {
         return BigDecimal.valueOf(totalValue[0])
                 .setScale(2, RoundingMode.HALF_EVEN)
                 .doubleValue();
+    }
+
+    public void handleException(double deducaoValue, String deducaoDescription) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
+        if(deducaoDescription == "")
+            throw new DescricaoEmBrancoException("Descrição não pode ser vazia");
+        if(deducaoValue <= 0)
+            throw new ValorDeducaoInvalidoException("Valor deve ser positivo");
     }
 
 }
