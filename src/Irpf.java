@@ -17,7 +17,7 @@ public class Irpf {
     private double taxValue = 0;
 
     private ArrayList<Rendimento> rendimentos;
-    private ArrayList<Deducao> deducoes;
+    ArrayList<Deducao> deducoes;
     private ArrayList<Dependente> dependentes;
 
     public Irpf() {
@@ -96,14 +96,7 @@ public class Irpf {
     };
 
     public void addDeducao(double deducaoValue, String deducaoType, String deducaoDescription) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
-        handleException(deducaoValue, deducaoDescription);
-
-        Deducao deducao = new Deducao();
-        deducao.setValue(deducaoValue);
-        deducao.setDeducaoType(deducaoType);
-        deducao.setDeducaoDescription(deducaoDescription);
-
-        deducoes.add(deducao);
+        new CalculateTax(this, deducaoValue, deducaoType, deducaoDescription);
     }
 
     public void setDependenteDeducao(String name, String dtNascimento) throws NoSuchMethodException {
