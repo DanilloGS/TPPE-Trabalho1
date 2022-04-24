@@ -1,6 +1,6 @@
 package models;
 
-public class Dependente {
+public class  Dependente {
 
     public static double pensao = 189.59;
 
@@ -13,10 +13,10 @@ public class Dependente {
     }
 
     public String getNome() {
-        return "Carlos";
+        return this.nome;
     }
 
     public String getDtNascimento() {
-        return "25/03/1990";
+        return this.dtNascimento;
     }
 }

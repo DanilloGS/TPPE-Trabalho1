@@ -96,7 +96,7 @@ public class Irpf {
     };
 
     public void addDeducao(double deducaoValue, String deducaoType, String deducaoDescription) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
-        new CalculateTax(this, deducaoValue, deducaoType, deducaoDescription);
+        new CalculateTax(this, deducaoValue, deducaoType, deducaoDescription).computar();
     }
 
     public void setDependenteDeducao(String name, String dtNascimento) throws NoSuchMethodException {
