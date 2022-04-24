@@ -1,5 +1,6 @@
 import exception.*;
 import models.Deducao;
+import models.Dependente;
 import models.Rendimento;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -106,7 +107,8 @@ class IrpfTest {
             "Steve Wozniak, 12/03/1990"
     })
     void getDependentes(String nome, String dtNascimento) throws NoSuchMethodException {
-        irpf.setDependenteDeducao(nome, dtNascimento);
+        Dependente dependente = new Dependente(nome, dtNascimento);
+        irpf.setDependenteDeducao(dependente);
         assertEquals(nome, irpf.getDependentes().get(0).getNome());
         assertEquals(dtNascimento, irpf.getDependentes().get(0).getDtNascimento());
     }

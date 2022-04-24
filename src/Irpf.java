@@ -44,10 +44,8 @@ public class Irpf {
         return this.dependentes;
     }
 
-    public void setDependenteDeducao(String name, String dtNascimento) throws NoSuchMethodException {
-        if(name == "")
-            throw new NoSuchMethodException("Descrição não pode ser vazia");
-        Dependente dependente = new Dependente(name, dtNascimento);
+    public void setDependenteDeducao(Dependente dependente) throws NoSuchMethodException {
+        if(dependente.getNome() == "") throw new NoSuchMethodException("Descrição não pode ser vazia");
         this.dependentes.add(dependente);
     }
 
