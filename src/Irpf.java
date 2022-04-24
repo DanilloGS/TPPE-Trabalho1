@@ -47,9 +47,7 @@ public class Irpf {
         this.rendimentos.forEach(rendimento ->
                 totalValue[0] += rendimento.getValue()
         );
-        return BigDecimal.valueOf(totalValue[0])
-                .setScale(2, RoundingMode.HALF_EVEN)
-                .doubleValue();
+        return this.truncateValue(totalValue[0]);
     }
 
     public double calculateTax() {
@@ -71,21 +69,12 @@ public class Irpf {
             this.taxValue += faixaValue * 0.075;
         }
 
-        double truncatedTax = BigDecimal.valueOf(this.taxValue)
-                .setScale(2, RoundingMode.HALF_EVEN)
-                .doubleValue();
-
-        return truncatedTax;
+        return truncateValue(this.taxValue);
     };
 
     public double getAliquota() {
         double percentage = 100 * this.calculateTax()/this.getRendimentoTotal();
-
-        double truncatedPercentage = BigDecimal.valueOf(percentage)
-                .setScale(2, RoundingMode.DOWN)
-                .doubleValue();
-
-        return truncatedPercentage;
+        return this.truncateValue(percentage);
     };
 
     public void addDeducao(Deducao deducao) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
@@ -108,9 +97,7 @@ public class Irpf {
                 totalValue[0] += deducao.getValue()
         );
 
-        return BigDecimal.valueOf(totalValue[0])
-                .setScale(2, RoundingMode.HALF_EVEN)
-                .doubleValue();
+        return this.truncateValue(totalValue[0]);
     }
 
     public void handleDeducoesException(Deducao deducao) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
@@ -125,5 +112,11 @@ public class Irpf {
             throw new DescricaoEmBrancoException("Descrção não pode ser vazia");
         if(rendimento.getValue() <= 0)
             throw new ValorRendimentoInvalidoException("Valor deve ser positivo");
+    }
+
+    private double truncateValue(double value) {
+        return BigDecimal.valueOf(value)
+                .setScale(2, RoundingMode.HALF_EVEN)
+                .doubleValue();
     }
 }

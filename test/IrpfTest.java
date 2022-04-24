@@ -124,12 +124,12 @@ class IrpfTest {
     @ParameterizedTest
     @CsvSource({
             "15000, 21.70",
-            "10000, 18.80",
+            "10000, 18.81",
             "500, 0",
             "5000, 10.11",
             "3000, 3.17",
             "1903.98, 0",
-            "2826.65, 2.44",
+            "2826.65, 2.45",
             "3751.05, 5.54",
     })
     void getAliquota(double value, double percentageExpected) throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
