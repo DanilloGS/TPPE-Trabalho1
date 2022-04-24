@@ -95,8 +95,8 @@ public class Irpf {
         return truncatedPercentage;
     };
 
-    public void addDeducao(double deducaoValue, String deducaoType, String deducaoDescription) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
-        new CalculateTax(this, deducaoValue, deducaoType, deducaoDescription).computar();
+    public void addDeducao(Deducao deducao) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
+        new CalculateTax(this, deducao).computar();
     }
 
     public void setDependenteDeducao(String name, String dtNascimento) throws NoSuchMethodException {
@@ -120,10 +120,10 @@ public class Irpf {
                 .doubleValue();
     }
 
-    public void handleException(double deducaoValue, String deducaoDescription) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
-        if(deducaoDescription == "")
+    public void handleException(Deducao deducao) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
+        if(deducao.getDeducaoDescription() == "")
             throw new DescricaoEmBrancoException("Descrição não pode ser vazia");
-        if(deducaoValue <= 0)
+        if(deducao.getValue() <= 0)
             throw new ValorDeducaoInvalidoException("Valor deve ser positivo");
     }
 

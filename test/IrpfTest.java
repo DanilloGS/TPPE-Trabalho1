@@ -1,4 +1,5 @@
 import exception.*;
+import models.Deducao;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -57,26 +58,23 @@ class IrpfTest {
 
     @Test
     void addDeducaoDescricaoEmBranco(){
+        Deducao deducao = new Deducao(8482.23, "PP", "");
         assertThrows(DescricaoEmBrancoException.class,
-                () -> irpf.addDeducao(
-                        8482.23, "PP", ""
-                ));
+                () -> irpf.addDeducao(deducao));
     }
 
     @Test
     void addDeducaoValorDeducaoInvalidoVazio(){
+        Deducao deducao = new Deducao(0, "PP", "Previdencia Privada");
         assertThrows(ValorDeducaoInvalidoException.class,
-                () -> irpf.addDeducao(
-                        0, "PP", "Previdencia Privada"
-                ));
+                () -> irpf.addDeducao(deducao));
     }
 
     @Test
     void addDeducaoValorDeducaoInvalidoNegativo(){
+        Deducao deducao = new Deducao(-2500.00, "PP", "Previdencia Privada");
         assertThrows(ValorDeducaoInvalidoException.class,
-                () -> irpf.addDeducao(
-                        -2500.00, "PP", "Previdencia Privada"
-                ));
+                () -> irpf.addDeducao(deducao));
     }
 
     @ParameterizedTest
@@ -85,8 +83,9 @@ class IrpfTest {
             "2000.00, PP, Minha Previdencia Privada",
             "3000.00, PA, Pensao Alimenticia"
     })
-    void getDeducao(double deducao, String tipoDeducao, String descricao) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
-        irpf.addDeducao(deducao, tipoDeducao, descricao);
+    void getDeducao(double value, String tipoDeducao, String descricao) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
+        Deducao deducao = new Deducao(value, tipoDeducao, descricao);
+        irpf.addDeducao(deducao);
         assertEquals(deducao, irpf.getDeducao().get(0).getValue());
         assertEquals(tipoDeducao, irpf.getDeducao().get(0).getDeducaoType());
         assertEquals(descricao, irpf.getDeducao().get(0).getDeducaoDescription());
@@ -106,9 +105,12 @@ class IrpfTest {
 
     @Test
     void getDeducaoTotal() throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
-        irpf.addDeducao(5000.00, "PA", "Pensao Alimenticia");
-        irpf.addDeducao(10000.00, "PP", "Previdencia Privada");
-        irpf.addDeducao(12000.00, "PP", "Previdencia Privada");
+        Deducao deducao1 = new Deducao(5000.00, "PA", "Pensao Alimenticia");
+        Deducao deducao2 = new Deducao(10000.00, "PP", "Previdencia Privada");
+        Deducao deducao3 = new Deducao(12000.00, "PP", "Previdencia Privada");
+        irpf.addDeducao(deducao1);
+        irpf.addDeducao(deducao2);
+        irpf.addDeducao(deducao3);
         assertEquals(27000.00, irpf.getDeducaoTotal());
     }
 }

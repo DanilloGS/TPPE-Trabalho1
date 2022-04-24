@@ -4,32 +4,17 @@ import models.Deducao;
 
 public class CalculateTax {
     // Referencia para objeto original
-    Irpf _fonte;
-
-    // Atributo para cada parametro
-    double deducaoValue;
-    String deducaoType;
-    String deducaoDescription;
-
-    // Atributo para cada variavel temporaria
-    Deducao deducao;
+    private Irpf fonte;
+    private Deducao deducao;
 
     // Construtor do objeto-metodo
-    public CalculateTax(Irpf _fonte, double deducaoValue, String deducaoType, String deducaoDescription){
-        this._fonte = _fonte;
-        this.deducaoValue = deducaoValue;
-        this.deducaoType = deducaoType;
-        this.deducaoDescription = deducaoDescription;
+    public CalculateTax(Irpf fonte, Deducao deducao){
+        this.fonte = fonte;
+        this.deducao = deducao;
     }
 
     void computar () throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
-        _fonte.handleException(deducaoValue, deducaoDescription);
-
-        deducao = new Deducao();
-        deducao.setValue(deducaoValue);
-        deducao.setDeducaoType(deducaoType);
-        deducao.setDeducaoDescription(deducaoDescription);
-
-        _fonte.deducoes.add(deducao);
+        fonte.handleException(this.deducao);
+        fonte.deducoes.add(this.deducao);
     }
 }
