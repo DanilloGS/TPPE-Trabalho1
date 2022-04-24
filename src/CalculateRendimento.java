@@ -3,19 +3,27 @@ import exception.ValorDeducaoInvalidoException;
 import exception.ValorRendimentoInvalidoException;
 import models.Rendimento;
 
-public class CalculateRendimento {
-    // Referencia para objeto original
-    private Irpf fonte;
-    private Rendimento rendimento;
+import java.util.ArrayList;
 
-    // Construtor do objeto-metodo
-    public CalculateRendimento(Irpf fonte, Rendimento rendimento){
-        this.fonte = fonte;
-        this.rendimento = rendimento;
+public class CalculateRendimento extends Calculate{
+
+    public CalculateRendimento(Irpf fonte) {
+        super(fonte);
     }
 
-    void computarRendimento () throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
-        fonte.handleRendimentosException(this.rendimento);
-        fonte.rendimentos.add(this.rendimento);
+    void computar (Rendimento rendimento) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
+        fonte.handleRendimentosException(rendimento);
+        fonte.rendimentos.add(rendimento);
     }
+
+    double computarValorTotal() {
+        ArrayList<Double> finalValue = new ArrayList<>();
+
+        this.fonte.rendimentos.forEach(rendimento ->
+                finalValue.add(rendimento.getValue())
+        );
+
+        return this.sum(finalValue);
+    }
+
 }

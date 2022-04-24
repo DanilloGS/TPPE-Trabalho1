@@ -26,7 +26,7 @@ public class Irpf {
     }
 
     void addRendimento(Rendimento rendimento) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
-        new CalculateRendimento(this, rendimento).computar();
+        new CalculateRendimento(this).computar(rendimento);
     }
 
     public ArrayList<Rendimento> getRendimentos(){
@@ -42,11 +42,8 @@ public class Irpf {
     }
 
     public double getRendimentoTotal () {
-        final double[] totalValue = {0};
-        this.rendimentos.forEach(rendimento ->
-                totalValue[0] += rendimento.getValue()
-        );
-        return this.truncateValue(totalValue[0]);
+        double finalValue = new CalculateDeducao(this).computarValorTotal();
+        return this.truncateValue(finalValue);
     }
 
     public double calculateTax() {
