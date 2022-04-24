@@ -1,11 +1,10 @@
 import exception.DescricaoEmBrancoException;
-import exception.ValorDeducaoInvalidoException;
 import exception.ValorRendimentoInvalidoException;
 import models.Rendimento;
 
 import java.util.ArrayList;
 
-public class CalculateRendimento extends Calculate{
+public class CalculateRendimento extends Calculate {
 
     public CalculateRendimento(Irpf fonte) {
         super(fonte);

@@ -1,11 +1,10 @@
 import exception.DescricaoEmBrancoException;
 import exception.ValorDeducaoInvalidoException;
 import models.Deducao;
-import models.Dependente;
 
 import java.util.ArrayList;
 
-public class CalculateDeducao extends Calculate{
+public class CalculateDeducao extends Calculate {
     public CalculateDeducao(Irpf fonte) {
         super(fonte);
     }

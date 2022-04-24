@@ -37,14 +37,24 @@ public class Irpf {
         return this.deducoes;
     }
 
+    public void addDeducao(Deducao deducao) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
+        new CalculateDeducao(this).computar(deducao);
+    }
     public ArrayList<Dependente> getDependentes(){
         return this.dependentes;
     }
 
-    public double getRendimentoTotal () {
-        double finalValue = new CalculateRendimento(this).computarValorTotal();
-        return this.truncateValue(finalValue);
+    public void setDependenteDeducao(String name, String dtNascimento) throws NoSuchMethodException {
+        if(name == "")
+            throw new NoSuchMethodException("Descrição não pode ser vazia");
+        Dependente dependente = new Dependente(name, dtNascimento);
+        this.dependentes.add(dependente);
     }
+
+    public double getAliquota() {
+        double percentage = 100 * this.calculateTax()/this.getRendimentoTotal();
+        return this.truncateValue(percentage);
+    };
 
     public double calculateTax() {
         double totalValue = this.getRendimentoTotal() - this.getDeducaoTotal();
@@ -68,20 +78,9 @@ public class Irpf {
         return truncateValue(taxValue);
     };
 
-    public double getAliquota() {
-        double percentage = 100 * this.calculateTax()/this.getRendimentoTotal();
-        return this.truncateValue(percentage);
-    };
-
-    public void addDeducao(Deducao deducao) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
-        new CalculateDeducao(this).computar(deducao);
-    }
-
-    public void setDependenteDeducao(String name, String dtNascimento) throws NoSuchMethodException {
-        if(name == "")
-            throw new NoSuchMethodException("Descrição não pode ser vazia");
-        Dependente dependente = new Dependente(name, dtNascimento);
-        this.dependentes.add(dependente);
+    public double getRendimentoTotal () {
+        double finalValue = new CalculateRendimento(this).computarValorTotal();
+        return this.truncateValue(finalValue);
     }
 
     public double getDeducaoTotal() {
