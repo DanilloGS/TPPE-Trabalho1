@@ -94,7 +94,7 @@ class IrpfTest {
     void getDeducao(double value, String tipoDeducao, String descricao) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
         Deducao deducao = new Deducao(value, tipoDeducao, descricao);
         irpf.addDeducao(deducao);
-        assertEquals(deducao, irpf.getDeducao().get(0).getValue());
+        assertEquals(value, irpf.getDeducao().get(0).getValue());
         assertEquals(tipoDeducao, irpf.getDeducao().get(0).getDeducaoType());
         assertEquals(descricao, irpf.getDeducao().get(0).getDeducaoDescription());
     }
@@ -121,4 +121,21 @@ class IrpfTest {
         irpf.addDeducao(deducao3);
         assertEquals(27000.00, irpf.getDeducaoTotal());
     }
-}
+    @ParameterizedTest
+    @CsvSource({
+            "15000, 21.70",
+            "10000, 18.80",
+            "500, 0",
+            "5000, 10.11",
+            "3000, 3.17",
+            "1903.98, 0",
+            "2826.65, 2.44",
+            "3751.05, 5.54",
+    })
+    void getAliquota(double value, double percentageExpected) throws ValorRendimentoInvalidoException, DescricaoEmBrancoException {
+        Rendimento rendimento = new Rendimento(value, "Salario");
+        irpf.addRendimento(rendimento);
+
+        assertEquals(percentageExpected, irpf.getAliquota());
+        }
+    }
