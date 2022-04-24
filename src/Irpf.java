@@ -42,7 +42,7 @@ public class Irpf {
     }
 
     public double getRendimentoTotal () {
-        double finalValue = new CalculateDeducao(this).computarValorTotal();
+        double finalValue = new CalculateRendimento(this).computarValorTotal();
         return this.truncateValue(finalValue);
     }
 
