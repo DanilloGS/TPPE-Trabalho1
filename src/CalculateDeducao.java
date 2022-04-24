@@ -1,26 +1,28 @@
 import exception.DescricaoEmBrancoException;
 import exception.ValorDeducaoInvalidoException;
 import models.Deducao;
+import models.Dependente;
 
 import java.util.ArrayList;
 
-public class CalculateDeducao {
-    // Referencia para objeto original
-    private Irpf fonte;
-    private Deducao deducao;
-
-    ArrayList<Deducao> deducoes;
-
-    // Construtor do objeto-metodo
-    public CalculateDeducao(Irpf fonte, Deducao deducao){
-        this.fonte = fonte;
-        this.deducao = deducao;
+public class CalculateDeducao extends Calculate{
+    public CalculateDeducao(Irpf fonte) {
+        super(fonte);
     }
 
-    void computarDeducoes () throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
-        fonte.handleDeducoesException(this.deducao);
-        fonte.deducoes.add(this.deducao);
+    void computar (Deducao deducao) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
+        this.fonte.handleDeducoesException(deducao);
+        this.fonte.deducoes.add(deducao);
     }
 
+    double computarValorTotal(double initialValue){
+        ArrayList<Double> finalValue = new ArrayList<>();
+        finalValue.add(initialValue);
 
+        this.fonte.deducoes.forEach(deducao ->
+                finalValue.add(deducao.getValue())
+        );
+
+        return this.sum(finalValue);
+    }
 }
