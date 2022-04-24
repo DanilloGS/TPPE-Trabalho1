@@ -2,19 +2,25 @@ import exception.DescricaoEmBrancoException;
 import exception.ValorDeducaoInvalidoException;
 import models.Deducao;
 
-public class CalculateTax {
+import java.util.ArrayList;
+
+public class CalculateDeducao {
     // Referencia para objeto original
     private Irpf fonte;
     private Deducao deducao;
 
+    ArrayList<Deducao> deducoes;
+
     // Construtor do objeto-metodo
-    public CalculateTax(Irpf fonte, Deducao deducao){
+    public CalculateDeducao(Irpf fonte, Deducao deducao){
         this.fonte = fonte;
         this.deducao = deducao;
     }
 
-    void computar () throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
-        fonte.handleException(this.deducao);
+    void computarDeducoes () throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
+        fonte.handleDeducoesException(this.deducao);
         fonte.deducoes.add(this.deducao);
     }
+
+
 }

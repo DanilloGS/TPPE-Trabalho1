@@ -16,7 +16,7 @@ public class Irpf {
     private double FAIXA5_LIMIT = FAIXA4_LIMIT + FAIXA3_LIMIT + FAIXA2_LIMIT + FAIXA1_LIMIT; // 27.5%
     private double taxValue = 0;
 
-    private ArrayList<Rendimento> rendimentos;
+    ArrayList<Rendimento> rendimentos;
     ArrayList<Deducao> deducoes;
     private ArrayList<Dependente> dependentes;
 
@@ -26,15 +26,8 @@ public class Irpf {
         dependentes = new ArrayList<>();
     }
 
-    void addRendimento(String description, double value) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
-        if(description == "")
-            throw new DescricaoEmBrancoException("Descrção não pode ser vazia");
-        if(value <= 0)
-            throw new ValorRendimentoInvalidoException("Valor deve ser positivo");
-        Rendimento _rendimento = new Rendimento();
-        _rendimento.setValue(value);
-        _rendimento.setDescription(description);
-        this.rendimentos.add(_rendimento);
+    void addRendimento(Rendimento rendimento) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
+        new CalculateRendimento(this, rendimento).computarRendimento();
     }
 
     public ArrayList<Rendimento> getRendimentos(){
@@ -96,7 +89,7 @@ public class Irpf {
     };
 
     public void addDeducao(Deducao deducao) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
-        new CalculateTax(this, deducao).computar();
+        new CalculateDeducao(this, deducao).computarDeducoes();
     }
 
     public void setDependenteDeducao(String name, String dtNascimento) throws NoSuchMethodException {
@@ -120,11 +113,17 @@ public class Irpf {
                 .doubleValue();
     }
 
-    public void handleException(Deducao deducao) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
+    public void handleDeducoesException(Deducao deducao) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
         if(deducao.getDeducaoDescription() == "")
             throw new DescricaoEmBrancoException("Descrição não pode ser vazia");
         if(deducao.getValue() <= 0)
             throw new ValorDeducaoInvalidoException("Valor deve ser positivo");
     }
 
+    public void handleRendimentosException(Rendimento rendimento) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
+        if(rendimento.getDescription() == "")
+            throw new DescricaoEmBrancoException("Descrção não pode ser vazia");
+        if(rendimento.getValue() <= 0)
+            throw new ValorRendimentoInvalidoException("Valor deve ser positivo");
+    }
 }

@@ -4,19 +4,17 @@ public class Rendimento {
     private String description;
     private double value;
 
-    public String getDescription() {
-        return description;
+    public Rendimento (double value, String description) {
+        this.description = description;
+        this.value = value;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getDescription() {
+        return description;
     }
 
     public double getValue() {
         return value;
     }
 
-    public void setValue(double value) {
-        this.value = value;
-    }
 }
