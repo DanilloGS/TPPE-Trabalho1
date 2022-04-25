@@ -37,13 +37,9 @@ class IrpfTest {
             "6000, 5000, 3000, 14000",
             "8000, 2681, 3920, 14601"
     })
-    void getRendimentoTotal(int value1, int value2, int value3, int finalValue) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
+    void getRendimentoTotal(int value1, int finalValue) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
         Rendimento rendimento1 = new Rendimento(value1, "Salario");
-        Rendimento rendimento2 = new Rendimento(value2, "Salario");
-        Rendimento rendimento3 = new Rendimento(value3, "Salario");
         irpf.addRendimento(rendimento1);
-        irpf.addRendimento(rendimento2);
-        irpf.addRendimento(rendimento3);
         assertEquals(finalValue, irpf.getRendimentoTotal());
     }
 
