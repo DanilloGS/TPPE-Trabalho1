@@ -1,20 +1,7 @@
 package models;
 
-public class Rendimento {
-    private String description;
-    private double value;
-
+public class Rendimento extends Monetary {
     public Rendimento (double value, String description) {
-        this.description = description;
-        this.value = value;
+        super(value, description);
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
 }

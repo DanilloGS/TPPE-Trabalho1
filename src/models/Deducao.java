@@ -1,26 +1,14 @@
 package models;
 
-public class Deducao {
-    private double value;
+public class Deducao extends Monetary {
     private String deducaoType;
-    private String deducaoDescription;
 
-    public Deducao(double value, String deducaoType, String deducaoDescription) {
-        this.value = value;
+    public Deducao(double value, String deducaoType, String description) {
+        super(value, description);
         this.deducaoType = deducaoType;
-        this.deducaoDescription = deducaoDescription;
-    }
-
-    public double getValue() {
-        return this.value;
     }
 
     public String getDeducaoType() {
         return this.deducaoType;
     }
-
-    public String getDeducaoDescription() {
-        return this.deducaoDescription;
-    }
-
 }
