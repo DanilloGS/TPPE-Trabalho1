@@ -25,10 +25,6 @@ public class Irpf {
         dependentes = new ArrayList<>();
     }
 
-    void addRendimento(Rendimento rendimento) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
-        new CalculateRendimento(this).computar(rendimento);
-    }
-
     public ArrayList<Rendimento> getRendimentos(){
         return this.rendimentos;
     }
@@ -37,24 +33,24 @@ public class Irpf {
         return this.deducoes;
     }
 
-    public void addDeducao(Deducao deducao) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
-        new CalculateDeducao(this).computar(deducao);
-    }
-    public ArrayList<Dependente> getDependentes(){
-        return this.dependentes;
+
+    public double getRendimentoTotal () {
+        double finalValue = new CalculateRendimento(this).computarValorTotal();
+        return this.truncateValue(finalValue);
     }
 
-    public void setDependenteDeducao(Dependente dependente) throws NoSuchMethodException {
-        if(dependente.getNome() == "") throw new NoSuchMethodException("Descrição não pode ser vazia");
-        this.dependentes.add(dependente);
+    public double getDeducaoTotal() {
+        double dependenteFinalValue = dependentes.size() * Dependente.pensionValue;
+        double finalValue = new CalculateDeducao(this).computarValorTotal(dependenteFinalValue);
+        return this.truncateValue(finalValue);
     }
 
     public double getAliquota() {
-        double percentage = 100 * this.calculateTax()/this.getRendimentoTotal();
+        double percentage = 100 * this.getTax()/this.getRendimentoTotal();
         return this.truncateValue(percentage);
     };
 
-    public double calculateTax() {
+    public double getTax() {
         double totalValue = this.getRendimentoTotal() - this.getDeducaoTotal();
         double faixaValue;
         double taxValue = 0;
@@ -76,15 +72,27 @@ public class Irpf {
         return truncateValue(taxValue);
     };
 
-    public double getRendimentoTotal () {
-        double finalValue = new CalculateRendimento(this).computarValorTotal();
-        return this.truncateValue(finalValue);
+    private double truncateValue(double value) {
+        return BigDecimal.valueOf(value)
+                .setScale(2, RoundingMode.HALF_EVEN)
+                .doubleValue();
     }
 
-    public double getDeducaoTotal() {
-        double valorDependentes = dependentes.size() * Dependente.pensao;
-        double finalValue = new CalculateDeducao(this).computarValorTotal(valorDependentes);
-        return this.truncateValue(finalValue);
+    void addRendimento(Rendimento rendimento) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
+        new CalculateRendimento(this).computar(rendimento);
+    }
+
+    public void addDeducao(Deducao deducao) throws ValorDeducaoInvalidoException, DescricaoEmBrancoException {
+        new CalculateDeducao(this).computar(deducao);
+    }
+
+    public ArrayList<Dependente> getDependentes(){
+        return this.dependentes;
+    }
+
+    public void setDependenteDeducao(Dependente dependente) throws NoSuchMethodException {
+        if(dependente.getName() == "") throw new NoSuchMethodException("Descrição não pode ser vazia");
+        this.dependentes.add(dependente);
     }
 
     public void handleDeducoesException(Deducao deducao) throws DescricaoEmBrancoException, ValorDeducaoInvalidoException {
@@ -101,9 +109,4 @@ public class Irpf {
             throw new ValorRendimentoInvalidoException("Valor deve ser positivo");
     }
 
-    private double truncateValue(double value) {
-        return BigDecimal.valueOf(value)
-                .setScale(2, RoundingMode.HALF_EVEN)
-                .doubleValue();
-    }
 }

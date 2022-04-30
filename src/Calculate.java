@@ -1,11 +1,10 @@
 import java.util.ArrayList;
 
 public class Calculate {
-    protected Irpf fonte;
+    protected Irpf source;
 
-    // Construtor do objeto-metodo
-    public Calculate(Irpf fonte){
-        this.fonte = fonte;
+    public Calculate(Irpf source){
+        this.source = source;
     }
 
     protected double sum(ArrayList<Double> values) {

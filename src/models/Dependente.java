@@ -2,21 +2,21 @@ package models;
 
 public class  Dependente {
 
-    public static double pensao = 189.59;
+    public static double pensionValue = 189.59;
 
-    private String nome;
-    private String dtNascimento;
+    private String name;
+    private String birthDay;
 
-    public Dependente(String nome, String dtNascimento) {
-        this.nome = nome;
-        this.dtNascimento = dtNascimento;
+    public Dependente(String name, String birthDay) {
+        this.name = name;
+        this.birthDay = birthDay;
     }
 
-    public String getNome() {
-        return this.nome;
+    public String getName() {
+        return this.name;
     }
 
-    public String getDtNascimento() {
-        return this.dtNascimento;
+    public String getBirthDay() {
+        return this.birthDay;
     }
 }

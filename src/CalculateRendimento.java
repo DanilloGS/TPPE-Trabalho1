@@ -6,19 +6,19 @@ import java.util.ArrayList;
 
 public class CalculateRendimento extends Calculate {
 
-    public CalculateRendimento(Irpf fonte) {
-        super(fonte);
+    public CalculateRendimento(Irpf source) {
+        super(source);
     }
 
     void computar (Rendimento rendimento) throws DescricaoEmBrancoException, ValorRendimentoInvalidoException {
-        fonte.handleRendimentosException(rendimento);
-        fonte.rendimentos.add(rendimento);
+        source.handleRendimentosException(rendimento);
+        source.rendimentos.add(rendimento);
     }
 
     double computarValorTotal() {
         ArrayList<Double> finalValue = new ArrayList<>();
 
-        this.fonte.rendimentos.forEach(rendimento ->
+        this.source.rendimentos.forEach(rendimento ->
                 finalValue.add(rendimento.getValue())
         );
 

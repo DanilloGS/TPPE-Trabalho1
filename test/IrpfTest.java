@@ -102,11 +102,11 @@ class IrpfTest {
             "Lord Byron, 13/02/1780",
             "Steve Wozniak, 12/03/1990"
     })
-    void getDependentes(String nome, String dtNascimento) throws NoSuchMethodException {
-        Dependente dependente = new Dependente(nome, dtNascimento);
+    void getDependentes(String name, String birthDay) throws NoSuchMethodException {
+        Dependente dependente = new Dependente(name, birthDay);
         irpf.setDependenteDeducao(dependente);
-        assertEquals(nome, irpf.getDependentes().get(0).getNome());
-        assertEquals(dtNascimento, irpf.getDependentes().get(0).getDtNascimento());
+        assertEquals(name, irpf.getDependentes().get(0).getName());
+        assertEquals(birthDay, irpf.getDependentes().get(0).getBirthDay());
     }
 
     @Test
