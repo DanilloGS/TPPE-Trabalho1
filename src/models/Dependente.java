@@ -1,6 +1,6 @@
 package models;
 
-public class  Dependente {
+public class Dependente {
 
     public static double pensionValue = 189.59;
 

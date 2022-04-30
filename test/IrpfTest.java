@@ -1,3 +1,4 @@
+import TaxCalculator.Irpf;
 import exception.*;
 import models.Deducao;
 import models.Dependente;
@@ -97,7 +98,7 @@ class IrpfTest {
         irpf.addDeducao(deducao);
         assertEquals(value, irpf.getDeducao().get(0).getValue());
         assertEquals(tipoDeducao, irpf.getDeducao().get(0).getDeducaoType());
-        assertEquals(descricao, irpf.getDeducao().get(0).getDeducaoDescription());
+        assertEquals(descricao, irpf.getDeducao().get(0).getDescription());
     }
 
     @ParameterizedTest
